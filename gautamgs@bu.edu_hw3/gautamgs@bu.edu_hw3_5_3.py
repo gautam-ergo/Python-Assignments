@@ -1,19 +1,22 @@
 """
 CS 521 Information Structures with Python
 #########################################
-Module          - HW 2
-Creation Date   - 09/25/2018
+Module          - HW 3
+Creation Date   - 10/01/2018
 Student Name    - Gautam Gowrishankar
 
 Intent:
-    Mathematical Expressions using Python.
+    To illustrate the math functionality.
 """
 
 #For Displaying the current version of Python
 import platform
 print ("Python version being used for this code - ", platform.python_version(),'\n')
 
-celsius = input("Enter a degree in Celsius: ")
-farenheit = ((9/5) * float(celsius))+ 32
-print(celsius,"Celsius is ",farenheit,"Farenheit" )
-print ("\nEnd of Program\n")
+pounds = 2.2
+print("Kilograms   Pounds")
+for value in range(1, 200, 2):
+    temp = value * pounds
+    print(value, "         %.1f" %temp)
+
+print("\n -End of Program- ")
