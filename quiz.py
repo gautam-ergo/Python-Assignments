@@ -507,7 +507,7 @@ E = [5,5,7,6,8]
 #
 print("Minimum Number of Platforms Required = ",
         findPlatform(S, E))
-'''
+
 import math
 X = [-1,2,-4,2,4]
 Y = [1, 2,-4,2,-1]
@@ -517,7 +517,8 @@ i = 0
 while i < len(X):
     res = (math.sqrt((X[i]*X[i]) + (Y[i]*Y[i])))
     dist.append(math.floor(res))
-    print(res)    i+= 1
+    print(res)
+    i+= 1
 y = dist.sort()
 print(sorted(dist)[0])
 
@@ -525,3 +526,188 @@ print(sorted(dist)[0])
 #for x,y in D.items():
 #    a = math.sqrt(x*x + y*y)
 #    print(a)
+
+def reorganizeString(S):
+    a = sorted(sorted(S), key=S.count)
+    h = len(a) / 2
+    print(a,h,a[1::2], a[::2])
+
+    a[1::2], a[::2] = a[:h], a[h:]
+    return ''.join(a) * (a[-1:] != a[-2:-1])
+
+reorganizeString('aab')
+
+def braces(values):
+        stack = []
+        res=[]
+        dict = {"]":"[", "}":"{", ")":"("}
+        for char in values:
+            flag = 'N'
+            for x in char:
+                if x in dict.values():
+                    stack.append(x)
+                elif x in dict.keys():
+                    if stack == [] or dict[x] != stack.pop():
+                        flag = 'Y'
+                else:
+                    flag = 'Y'
+                #print(stack)
+
+            print(flag,char)
+            stack == []
+            res.append("YES") if flag =='N' else res.append("NO")
+        return res
+print(braces(['}][}}(}][))]','[](){()}','()','({}([][]))[]()','{)[](}]}]}))}(())(','([[)']))
+
+
+from collections import Counter
+import heapq
+def reorganizeString(word):
+    res = []
+    for i in word:
+        dup,x = 0,0
+        while x in range(len(i)-1):
+            if i[x] == i[x + 1]:
+                dup +=1
+                print(x,dup)
+                x+=1
+            x +=1
+        res.append(dup-1) if dup > 1 else res.append(dup)
+    print res
+
+
+reorganizeString(['dkxqcthvgmzymoohniertqanrbkfdolfwfaalwolqpipngsaquxurvzwjpfejkfyys'])
+
+class Solution:
+def checkGrid2(self,g2,cords):
+    f = 0
+    for i,j in cords:
+        if int(g2[i][j]) == 0:# and f!= -1:
+            f = -1
+            break
+    return f
+def dfs(self, grid, i, j):
+    #print("enter i:",i,"j:",j)
+    global coord
+    if i<0 or j<0 or i>=len(grid) or j>=len(grid[0]) or grid[i][j] != '1':
+        #print("break i:",i,"j:",j)
+        return
+    grid[i][j] = '#'
+    #print(i,":",j,":",coord)
+    #if g2[i][j]==0 and region != -1:
+    #  region = -1
+    coord.append((i,j))
+    self.dfs(grid, i+1, j)
+    #print("a i:",i,"j:",j)
+    self.dfs(grid, i-1, j)
+    #print("b i:",i,"j:",j)
+    self.dfs(grid, i, j+1)
+    #print("c i:",i,"j:",j)
+    self.dfs(grid, i, j-1)
+    #print("d i:",i,"j:",j)
+
+    def numIslands(self, grid1,grid2):
+
+        """
+        :type grid: List[List[str]]
+        :rtype: int
+        """
+        global coord
+
+        overlap = 0
+        coord = []
+        #print(range(len(grid)),":",range(len(grid[0])))
+        for i in range(len(grid2)):
+            for j in range(len(grid2[0])):
+                if grid2[i][j] == '1':
+                    region1 = 0
+                    self.dfs(grid2, i, j)
+                    region1 += 1
+                    region2 = self.checkGrid2(grid1,coord)
+                    print(coord,";",region2,":",region1)
+                    overlap = overlap + region1 + region2
+                    coord=[]
+
+       return overlap
+        #print (overlap)
+
+#Solution().numIslands([["0","0","1"],["0","1","1"],["1","0","0"]],[["0","0","1"],["0","1","1"],["0","0","0"]])
+#Solution().numIslands([["0","1","0","0"],
+#["1","0","0","1"],
+#["0","0","1","1"],
+#["0","0","1","1"]],
+#[["0","1","0","1"],
+#["1","0","0","1"],
+#["0","0","1","1"],
+#["0","0","1","1"]])
+#x = [(1,2),(3,4)]
+#for i,j in x:
+#    print(i,j)
+Solution().numIslands(
+[["0","0","1","0"],
+["0","1","1","1"],
+["0","1","0","0"],
+["1","1","1","1"]],
+[["0","0","1","0"],
+["0","1","1","1"],
+["0","1","1","0"],
+["1","1","1","1"]])
+
+def checkOverlap(g2,cords):
+    olap = True
+    for i,j in cords:
+        if int(g2[i][j])== 0:
+            olap = False
+            break
+    return olap
+
+def dfs(grid, i, j):
+    global coord
+    if i<0 or j<0 or i>=len(grid) or j>=len(grid[0]) or grid[i][j] != '1':
+        return
+    grid[i][j] = '#'
+    coord.append((i,j))
+    dfs(grid, i+1, j)
+    dfs(grid, i-1, j)
+    dfs(grid, i, j+1)
+    dfs(grid, i, j-1)
+
+def countMatches(grid1, grid2):
+    # Write your code here
+    global coord
+
+    overlap = 0
+    region1 = 0
+    coord = []
+        #print(range(len(grid)),":",range(len(grid[0])))
+    for i in range(len(grid2)):
+        for j in range(len(grid2[0])):
+            if grid2[i][j] == '1':
+                #region1 = 0
+                dfs(grid2, i, j)
+                region1 += 1
+                if not checkOverlap(grid1,coord):
+                    region1 -= 1
+                #overlap = overlap + region1 + region2
+                print(coord,";:",region1)
+                coord=[]
+
+    return region1
+
+#print(countMatches(
+#[["0","0","1","0"],
+#["0","1","1","1"],
+#["0","1","0","0"],
+#["1","1","1","1"]],
+#[["0","0","1","0"],
+#["0","1","1","1"],
+#["0","1","1","0"],
+#["1","1","1","1"]]))
+print(countMatches(
+[["0","0","1"],
+["0","1","1"],
+["1","0","0"]],
+[["0","0","1"],
+["0","1","1"],
+["1","0","1"]]))
+'''
